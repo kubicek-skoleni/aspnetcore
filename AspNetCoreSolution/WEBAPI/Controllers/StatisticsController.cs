@@ -12,19 +12,24 @@ namespace WEBAPI.Controllers
             Data.DataSet.LoadFromXML(@"C:\Users\StudentEN\source\repos\kubicek-skoleni\aspnetcore\dataset.xml");
         }
 
-        [HttpGet("People/All")]
+        [Route("People/All")]
+        [Route("People")]
+        [Route("/People")]
+        [HttpGet]
         public int PeopleCount()
         {
             return Data.DataSet.People.Count();
         }
 
-        [HttpGet("Peple/WithContract")]
+
+        [HttpGet("People/WithContract")]
         public int PeopleWithContract()
         {
             return Data.DataSet.People
                         .Where(p => p.Contracts.Count() > 0)
                         .Count();
         }
+
 
         [HttpGet("Contracts/Active")]
         public int ContractsCount()
