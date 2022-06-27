@@ -4,8 +4,7 @@ namespace Model
 {
     public class Person
     {
-        private bool _inicialized;
-
+     
         #region konstruktory
         public Person(string firstName, string lastName)
         {
@@ -20,6 +19,7 @@ namespace Model
         #endregion
 
         #region vlastnosti
+        public int Id { get; set; }
         public string FirstName { get; set; } = "John";
 
         public string LastName { get; set; } = "Doe";
