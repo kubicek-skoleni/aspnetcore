@@ -23,9 +23,19 @@ namespace WEBAPI.Controllers
 
         // GET api/Person/5
         [HttpGet("{id}")]
-        public Person Get(int id)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
+        public ActionResult<Person> Get(int id)
         {
-            return Data.DataSet.People[id];
+            if(id >= Data.DataSet.People.Count)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Data.DataSet.People[id];
+            }
         }
 
 
