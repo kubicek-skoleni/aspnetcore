@@ -28,22 +28,26 @@ namespace WEBAPI.Controllers
             return Data.DataSet.People[id];
         }
 
-        // POST api/<PersonController>
+        // POST api/Person
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post(Person value)
         {
+            Data.DataSet.People.Add(value);
         }
 
-        // PUT api/<PersonController>/5
+        // PUT api/Person/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, Person value)
         {
+            Data.DataSet.People.RemoveAt(id);
+            Data.DataSet.People.Insert(id, value);
         }
 
-        // DELETE api/<PersonController>/5
+        // DELETE api/Person/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            Data.DataSet.People.RemoveAt(id);
         }
     }
 }
