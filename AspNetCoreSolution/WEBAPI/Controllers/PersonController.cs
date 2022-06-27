@@ -14,12 +14,12 @@ namespace WEBAPI.Controllers
             Data.DataSet.LoadFromXML(@"C:\Users\StudentEN\source\repos\kubicek-skoleni\aspnetcore\dataset.xml");
         }
 
-        // GET: api/Person
-        //[HttpGet]
-        //public IEnumerable<Person> Get()
-        //{
-        //    return Data.DataSet.People;
-        //}
+        // GET: api/Person/All
+        [HttpGet("All")]
+        public IEnumerable<Person> GetAll()
+        {
+            return Data.DataSet.People;
+        }
 
         // GET api/Person/5
         [HttpGet("{id}")]
@@ -34,7 +34,6 @@ namespace WEBAPI.Controllers
         {
             return Data.DataSet.People
                 .Where(p => p.Email.ToLower().Contains(email.ToLower()));
-                
         }
 
         // POST api/Person
