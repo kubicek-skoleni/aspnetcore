@@ -26,20 +26,25 @@ namespace WEBAPI.Controllers
                         .Count();
         }
 
-        [HttpGet("/Contracts/Active")]
+        [HttpGet("Contracts/Active")]
         public int ContractsCount()
         {
             // pocet vsech aktivnich smluv
-            int cnt = 0;
+            //int cnt = 0;
 
-            foreach(var person in Data.DataSet.People)
-            {
-                cnt += person.Contracts
-                    .Where(c => c.IsActive)
-                    .Count();
-            }
+            //foreach(var person in Data.DataSet.People)
+            //{
+            //    cnt += person.Contracts
+            //        .Where(c => c.IsActive)
+            //        .Count();
+            //}
 
-            return cnt;
+            return Data.DataSet.People
+                .SelectMany(p => p.Contracts)
+                .Where(c => c.IsActive)
+                .Count();
+
+            //return cnt;
         }
 
     }
