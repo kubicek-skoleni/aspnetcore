@@ -15,17 +15,26 @@ namespace WEBAPI.Controllers
         }
 
         // GET: api/Person
-        [HttpGet]
-        public IEnumerable<Person> Get()
-        {
-            return Data.DataSet.People;
-        }
+        //[HttpGet]
+        //public IEnumerable<Person> Get()
+        //{
+        //    return Data.DataSet.People;
+        //}
 
         // GET api/Person/5
         [HttpGet("{id}")]
         public Person Get(int id)
         {
             return Data.DataSet.People[id];
+        }
+
+
+        [HttpGet("ByEmail/{email}")]
+        public IEnumerable<Person> GetByEmail(string email)
+        {
+            return Data.DataSet.People
+                .Where(p => p.Email.ToLower().Contains(email.ToLower()));
+                
         }
 
         // POST api/Person
