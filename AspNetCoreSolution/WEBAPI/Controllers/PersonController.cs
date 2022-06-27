@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Data;
+using Microsoft.AspNetCore.Mvc;
 using Model;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -9,16 +10,17 @@ namespace WEBAPI.Controllers
     [ApiController]
     public class PersonController : ControllerBase
     {
-        public PersonController()
+        private readonly PeopleContext _context;
+        public PersonController(PeopleContext context)
         {
-            Data.DataSet.LoadFromXML(@"C:\Users\StudentEN\source\repos\kubicek-skoleni\aspnetcore\dataset.xml");
+            _context = context;
         }
 
         // GET: api/Person/All
         [HttpGet("All")]
         public IEnumerable<Person> GetAll()
         {
-            return Data.DataSet.People;
+            return _context.Persons;
         }
 
         // GET api/Person/5
@@ -28,13 +30,15 @@ namespace WEBAPI.Controllers
 
         public ActionResult<Person> Get(int id)
         {
-            if(id >= Data.DataSet.People.Count)
+            if(id >= _context.Persons.Count())
             {
                 return NotFound();
             }
             else
             {
-                return Data.DataSet.People[id];
+                return _context.Persons
+                                .Where(p => p.Id == id)
+                                .FirstOrDefault();
             }
         }
 
