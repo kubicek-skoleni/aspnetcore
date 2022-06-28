@@ -21,7 +21,9 @@ namespace WEBAPI.Controllers
         [HttpGet("All")]
         public IEnumerable<Person> GetAll()
         {
-            return _context.Persons;
+            return _context.Persons
+                    .Include(p => p.HomeAddress)
+                    .Include(p => p.Contracts);
         }
 
         // GET api/Person/5
@@ -37,6 +39,8 @@ namespace WEBAPI.Controllers
             else
             {
                 return _context.Persons
+                                .Include(p => p.HomeAddress)
+                                .Include(p => p.Contracts)
                                 .Where(p => p.Id == id)
                                 .FirstOrDefault();
             }

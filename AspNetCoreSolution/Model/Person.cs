@@ -37,6 +37,7 @@ namespace Model
         public Address HomeAddress { get; set; }
                                         = new Address();
         [MaxLength(128)]
+        //[Required]
         public string Email { get; set; }
 
         public List<Contract> Contracts { get; set; }

@@ -21,7 +21,6 @@ namespace WEBAPI.Controllers
             return Data.DataSet.People.Count();
         }
 
-
         [HttpGet("People/WithContract")]
         public int PeopleWithContract()
         {
