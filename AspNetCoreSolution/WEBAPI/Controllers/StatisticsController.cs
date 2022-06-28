@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Model;
+using Model.APIResultTypes;
 
 namespace WEBAPI.Controllers
 {
@@ -64,6 +65,37 @@ namespace WEBAPI.Controllers
                 .Include(p => p.HomeAddress)
                 .Where(p => p.HomeAddress.City.ToLower() == city.ToLower())
                 .ToList();
+        }
+
+        [HttpGet("Emails/City/{city}")]
+        public List<string> GetEmailsByCity(string city)
+        {
+            return _context.Persons
+                .Include(p => p.HomeAddress)
+                .Where(p => p.HomeAddress.City.ToLower() == city.ToLower())
+                //.Select(p => new { p.Email, p.FirstName, p.LastName }) //anonymni typ
+                .Select(p => p.Email)
+                .ToList();
+
+
+            //foreach(var emailName in emailWithNames)
+            //{
+            //    var firstname = emailName.FirstName;
+            //}
+
+        }
+
+
+
+        [HttpGet("Cities")]
+        public IEnumerable<CityPoepleCount> CityPeopleCount()
+        {
+            return _context.Persons
+                .Include(x => x.HomeAddress)
+                .ToList()
+                .GroupBy(p => p.HomeAddress.City)
+                .ToList()
+                .Select(g => new CityPoepleCount() { City = g.Key, PeopleCount = g.Count() });
         }
 
     }
