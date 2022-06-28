@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model
 {
@@ -39,8 +40,17 @@ namespace Model
             }
         }
 
-
+        // databazova property
         public DateTime DateOfBirth { get; set; }
+
+        // gui property pro datum narozeni
+        [NotMapped]
+        public DateOnly DateOfBirthDateOnly 
+        {  
+            get { return DateOnly.FromDateTime(DateOfBirth); }
+            set { DateOfBirth = value.ToDateTime(new TimeOnly(0)); }
+        }
+
 
         public Address HomeAddress { get; set; }
                                         = new Address();
