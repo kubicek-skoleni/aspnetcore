@@ -19,9 +19,14 @@ namespace Model
         #endregion
 
         #region vlastnosti
+
+        
         public int Id { get; set; }
+
+        [MaxLength(200)]
         public string FirstName { get; set; } = "John";
 
+        [MaxLength(200)]
         public string LastName { get; set; } = "Doe";
 
         public string FullName
@@ -32,12 +37,13 @@ namespace Model
             }
         }
 
+
         public DateTime DateOfBirth { get; set; }
 
         public Address HomeAddress { get; set; }
                                         = new Address();
         [MaxLength(128)]
-        //[Required]
+        [Required]
         public string Email { get; set; }
 
         public List<Contract> Contracts { get; set; }

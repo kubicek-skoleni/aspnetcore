@@ -18,5 +18,10 @@ namespace Data
         {
             optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=PeopleDb;Trusted_Connection=True;MultipleActiveResultSets=true");
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+           
+        }
     }
 }

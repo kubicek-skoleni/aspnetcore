@@ -14,7 +14,7 @@ namespace WEBAPI.Controllers
         private readonly PeopleContext _context;
         public StatisticsController(PeopleContext context)
         {
-            _context = context;
+           _context = context;
             Data.DataSet.LoadFromXML(@"C:\Users\StudentEN\source\repos\kubicek-skoleni\aspnetcore\dataset.xml");
         }
 
@@ -97,6 +97,8 @@ namespace WEBAPI.Controllers
                 .ToList()
                 .Select(g => new CityPoepleCount() { City = g.Key, PeopleCount = g.Count() });
         }
+
+
 
     }
 }
