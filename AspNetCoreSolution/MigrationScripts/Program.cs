@@ -1,16 +1,18 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Data;
+using Microsoft.EntityFrameworkCore;
 
 Console.WriteLine("Hello, World!");
 
-
-// inicializace People (memory) z XML
-Data.DataSet.LoadFromXML(@"C:\Users\StudentEN\source\repos\kubicek-skoleni\aspnetcore\dataset.xml");
-
-Console.WriteLine($"Načetl jsem {Data.DataSet.People.Count} lidí");
-
 using var db = new PeopleContext();
 
-//db.Persons.AddRange(Data.DataSet.People);
+var osoba = db.Persons
+    .Include(p => p.Contracts)
+    .Where(p =>p.Contracts.Any())
+    .First();
 
-db.SaveChanges();
+var contract = osoba.Contracts.First();
+
+var cntr = db.Contracts.Include(x => x.Person).Skip(10).First();
+
+Console.WriteLine(  );

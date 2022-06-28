@@ -17,6 +17,8 @@ namespace Model
         [MaxLength(200)]
         public string Street { get; set; }
 
+        //public Person Person { get; set; }
+
         public override string ToString()
             => $"{City} {Street}";
 
