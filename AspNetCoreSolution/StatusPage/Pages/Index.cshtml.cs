@@ -12,9 +12,25 @@ namespace StatusPage.Pages
             _logger = logger;
         }
 
+        public string APIStatus { get; set; }
+
         public void OnGet()
         {
+            var api_url = "https://localhost:7192/api/health";
+            using var client = new HttpClient();
 
+            try
+            {
+                var result = client.GetStringAsync(api_url).Result;
+                if (result == "Healthy")
+                    APIStatus = "OK";
+                else
+                    APIStatus = "NOT OK";
+            }
+            catch
+            {
+                APIStatus = "NOT OK";
+            }
         }
     }
 }
