@@ -48,13 +48,16 @@ namespace WEBAPI.Controllers
 
 
         [HttpGet("ByEmail/{email}")]
-        public IEnumerable<Person> GetByEmail(string email)
+        public ActionResult<IEnumerable<Person>> GetByEmail(string email)
         {
             var query = _context.Persons
                 .Where(p => p.Email.ToLower()
                 .Contains(email.ToLower()));
 
-            return query.ToList();
+            if (query.Count() > 0)
+                return query.ToList();
+            else
+                return NotFound();
         }
 
         // POST api/Person
