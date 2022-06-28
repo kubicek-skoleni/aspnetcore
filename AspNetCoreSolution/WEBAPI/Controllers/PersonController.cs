@@ -1,5 +1,6 @@
 ﻿using Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Model;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -27,7 +28,6 @@ namespace WEBAPI.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-
         public ActionResult<Person> Get(int id)
         {
             if(id >= _context.Persons.Count())
@@ -46,30 +46,65 @@ namespace WEBAPI.Controllers
         [HttpGet("ByEmail/{email}")]
         public IEnumerable<Person> GetByEmail(string email)
         {
-            return Data.DataSet.People
-                .Where(p => p.Email.ToLower().Contains(email.ToLower()));
+            var query = _context.Persons
+                .Where(p => p.Email.ToLower()
+                .Contains(email.ToLower()));
+
+            return query.ToList();
         }
 
         // POST api/Person
         [HttpPost]
-        public void Post(Person value)
+        public ActionResult Post(Person value)
         {
-            Data.DataSet.People.Add(value);
+            try
+            {
+                _context.Persons.Add(value);
+                _context.SaveChanges();
+                return Created($"/api/Person/{value.Id}", value);
+            }
+            catch (Exception)
+            {
+                //todo log 
+                throw;
+            }
+            
         }
 
         // PUT api/Person/5
         [HttpPut("{id}")]
         public void Put(int id, Person value)
         {
-            Data.DataSet.People.RemoveAt(id);
-            Data.DataSet.People.Insert(id, value);
+            // zpusob 1. - vytahnu osobo z db
+            // a menim jeji hodnoty podle toho co prislo (value)
+            // (manualne co chci zmenit)
+            //var existingPerson = _context.Persons.Find(id);
+            //existingPerson.Email = value.Email;
+            //existingPerson.FirstName = value.FirstName;
+            //existingPerson.LastName = value.LastName;
+
+            //zpusob 2. - nesmim vytahnout osobu z db
+            // ale pouze prichozi pripojim k db contextu
+            //_context.Entry<Person>(value).State = EntityState.Modified;
+            //todo test edit    
+
+            //zpusob 3. - podobny jako 1. ale vsechny property
+            // automaticky aktualizuje CurrentValues.SetValues
+            var currentEntity = _context.Persons.Find(id);
+            
+            _context.Entry(currentEntity)
+                .CurrentValues.SetValues(value);
+
+            _context.SaveChanges();
         }
 
         // DELETE api/Person/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            Data.DataSet.People.RemoveAt(id);
+            var person = _context.Persons.Find(id);
+            _context.Persons.Remove(person);
+            _context.SaveChanges();
         }
     }
 }
