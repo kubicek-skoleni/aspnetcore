@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Model;
 
 namespace WEBAPI.Controllers
 {
@@ -7,8 +10,10 @@ namespace WEBAPI.Controllers
     [ApiController]
     public class StatisticsController : ControllerBase
     {
-        public StatisticsController()
+        private readonly PeopleContext _context;
+        public StatisticsController(PeopleContext context)
         {
+            _context = context;
             Data.DataSet.LoadFromXML(@"C:\Users\StudentEN\source\repos\kubicek-skoleni\aspnetcore\dataset.xml");
         }
 
@@ -49,6 +54,16 @@ namespace WEBAPI.Controllers
                 .Count();
 
             //return cnt;
+        }
+
+        // lidi kteri jsou v danem meste 
+        [HttpGet("People/City/{city}")]
+        public List<Person> GetPeopleByCity(string city)
+        {
+            return _context.Persons
+                .Include(p => p.HomeAddress)
+                .Where(p => p.HomeAddress.City.ToLower() == city.ToLower())
+                .ToList();
         }
 
     }
