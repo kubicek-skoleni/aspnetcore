@@ -18,6 +18,7 @@
             <th scope="col">Email</th>
             <th scope="col">Datum nar.</th>
             <th scope="col">Počet smluv</th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
@@ -29,6 +30,7 @@
                 <td>@person.Email</td>
                 <td>@person.DateOfBirth</td>
                 <td>@person.Contracts.Count()</td>
+                <td><a href="/AddContract/@person.Id">přidej smlouvu</a></td>
             </tr>
         }
     </tbody>

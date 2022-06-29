@@ -1,0 +1,56 @@
+﻿@page "/AddContract/{id:int}"
+
+@inject PeopleContext _context
+@inject NavigationManager navManager
+
+<h3>Přidej smlouvu k @Person.FullName</h3>
+
+<EditForm Model="Contract" OnValidSubmit="Save">
+
+    <DataAnnotationsValidator />
+
+    <div class="mb-3">
+        <label for="contractname" class="form-label">Název smlouvy</label>
+        <InputText @bind-Value=Contract.Name class="form-control" id="contractname" />
+    </div>
+
+    <div class="mb-3">
+        <label for="contractnumber" class="form-label">číslo smlouvy</label>
+        <InputText @bind-Value=Contract.Number class="form-control" id="contractnumber" />
+    </div>
+       
+    <ValidationSummary/>
+
+    <button class="btn btn-primary" type="submit" >Přidej smlouvu</button>
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public int id { get; set; }
+
+    Contract Contract = new Contract();
+
+    Person? Person = new Person();
+
+    protected override void OnInitialized()
+    {
+        // po inicializaci stranky, nacist osobu z db 
+        Person = _context.Persons
+                    .Include(x => x.Contracts)
+                    .Where(x => x.Id == id)
+                    .FirstOrDefault();
+    }
+
+    void Save()
+    {
+        Person.Contracts.Add(Contract);
+        _context.SaveChanges();
+
+        // naviguj na index
+        navManager.NavigateTo("/", true);
+    }
+
+
+
+}
