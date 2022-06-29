@@ -65,6 +65,8 @@ namespace WEBAPI.Controllers
                 .Include(p => p.HomeAddress)
                 .Where(p => p.HomeAddress.City.ToLower() == city.ToLower())
                 .ToList();
+
+            
         }
 
         [HttpGet("Emails/City/{city}")]
