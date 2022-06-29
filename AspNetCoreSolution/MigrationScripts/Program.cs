@@ -1,18 +1,20 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using Data;
-using Microsoft.EntityFrameworkCore;
 
-Console.WriteLine("Hello, World!");
 
-using var db = new PeopleContext();
+using MigrationScripts;
 
-var osoba = db.Persons
-    .Include(p => p.Contracts)
-    .Where(p =>p.Contracts.Any())
-    .First();
 
-var contract = osoba.Contracts.First();
+Zvire pes = new Zvire() { Druh = "pes"};
+Osoba petr = new Osoba() { Jmeno = "Petr"};
 
-var cntr = db.Contracts.Include(x => x.Person).Skip(10).First();
+List<IVypisInfo> list = new List<IVypisInfo>() { pes, petr };
 
-Console.WriteLine(  );
+VypisInfoDoKonzole(list);
+
+void VypisInfoDoKonzole(List<IVypisInfo> items)
+{
+    foreach (var item in items)
+    {
+        item.VypisInfo();
+    }
+}
