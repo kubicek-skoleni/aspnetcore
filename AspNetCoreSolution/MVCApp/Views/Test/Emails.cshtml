@@ -1,0 +1,20 @@
+﻿@model List<string>
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+    toto je komentar
+*@
+
+@{
+
+}
+
+
+<p>Test Emaily @DateTime.Now</p>
+
+@foreach(var email in Model)
+{
+    <div> @email </div>
+}
+
+<p>extra: @ViewData["extra"]</p>
