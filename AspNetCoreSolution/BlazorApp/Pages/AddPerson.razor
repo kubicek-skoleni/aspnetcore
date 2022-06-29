@@ -28,6 +28,8 @@
     <button class="btn btn-primary" @onclick=Save >Ulož</button>
 </EditForm>
 
+@* <div></div> *@
+
 
 @code {
     Person Person = new Person()
@@ -41,7 +43,8 @@
     {
         _context.Persons.Add(Person);
         _context.SaveChanges();
-
+        
+        // naviguj na index
         navManager.NavigateTo("/", true);
     }
 }
