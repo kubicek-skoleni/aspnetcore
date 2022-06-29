@@ -6,6 +6,9 @@
 <h3>Přidej novou osobu</h3>
 
 <EditForm Model="Person">
+
+    <DataAnnotationsValidator />
+
     <div class="mb-3">
         <label for="firstname" class="form-label">Jméno</label>
         <InputText @bind-Value=Person.FirstName class="form-control" id="firstname" />
@@ -25,7 +28,17 @@
         <label for="dob" class="form-label">Datum narození</label>
         <InputDate @bind-Value=Person.DateOfBirth class="form-control" id="dob" />
     </div>
-    <button class="btn btn-primary" @onclick=Save >Ulož</button>
+
+    <ValidationSummary/>
+
+    @if (ShowAlert)
+    {
+        <div class="alert alert-danger">
+            Prosím vyplňte jméno, příjmení a email.
+        </div>
+    }
+  
+    <button disabled=@(string.IsNullOrEmpty(Person.Email)) class="btn btn-primary" @onclick=Save>Ulož</button>
 </EditForm>
 
 @* <div></div> *@
@@ -39,8 +52,23 @@
             DateOfBirth = DateTime.Today.AddYears(-20)
         };
 
+    bool ShowAlert = false;
+
+    bool IsValidInput()
+    {
+        return //!string.IsNullOrEmpty(Person.FirstName)
+            //&& !string.IsNullOrEmpty(Person.LastName)
+            !string.IsNullOrEmpty(Person.Email); 
+    }
+
     void Save()
     {
+        if (!IsValidInput())
+        {
+            //ShowAlert = true;
+            return;
+        }
+
         _context.Persons.Add(Person);
         _context.SaveChanges();
         
