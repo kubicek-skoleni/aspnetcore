@@ -1,7 +1,57 @@
 ﻿@page "/FindPerson"
 
+@inject PeopleContext _context
+
 <h3>Hledej osobu</h3>
 
-@code {
+<EditForm Model=SearchTerm>
+<div class="mb-3">
+    <label for="email" class="form-label">Email</label>
+    <InputText @bind-Value=SearchTerm class="form-control" id="email" placeholder="name@example.com" />
+</div>
 
+<button class="btn btn-primary" @onclick=Search >Hledej</button>
+</EditForm>
+
+<h4>Výdledek hledání:</h4>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Jméno</th>
+            <th scope="col">Email</th>
+            <th scope="col">Datum nar.</th>
+            <th scope="col">Počet smluv</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var person in SearchResult)
+        {
+            <tr>
+                <th scope="row">@person.Id</th>
+                <td>@person.FullName</td>
+                <td>@person.Email</td>
+                <td>@person.DateOfBirth</td>
+                <td>@person.Contracts.Count()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+        string SearchTerm = "";
+
+        List<Person> SearchResult = new List<Person>();
+
+        void Search()
+        {
+            SearchResult.Clear();
+
+            var result = _context.Persons
+                    .Where(p => p.Email.ToLower().Contains(SearchTerm.ToLower()))
+                    .ToList();
+
+            SearchResult.AddRange(result);
+}
 }
