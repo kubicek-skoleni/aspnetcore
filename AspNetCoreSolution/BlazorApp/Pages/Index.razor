@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using Data
+@using Microsoft.EntityFrameworkCore
 
 @inject PeopleContext _context
 
@@ -21,7 +22,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var person in _context.Persons.OrderByDescending(x => x.Id).Take(10))
+        @foreach (var person in _context.Persons.Include(x => x.Contracts).OrderByDescending(x => x.Id).Take(10))
         {
             <tr>
                 <th scope="row">@person.Id</th>
