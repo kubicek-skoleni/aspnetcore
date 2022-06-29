@@ -46,12 +46,12 @@
 
         void Search()
         {
-            SearchResult.Clear();
+            //SearchResult.Clear();
 
-            var result = _context.Persons
+            SearchResult = _context.Persons
                     .Where(p => p.Email.ToLower().Contains(SearchTerm.ToLower()))
                     .ToList();
 
-            SearchResult.AddRange(result);
+            //SearchResult.AddRange(result);
 }
 }
