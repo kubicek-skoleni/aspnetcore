@@ -1,6 +1,4 @@
 ﻿@page "/"
-@using Data
-@using Microsoft.EntityFrameworkCore
 
 @inject PeopleContext _context
 
@@ -18,6 +16,7 @@
             <th scope="col">#</th>
             <th scope="col">Jméno</th>
             <th scope="col">Email</th>
+            <th scope="col">Datum nar.</th>
             <th scope="col">Počet smluv</th>
         </tr>
     </thead>
@@ -28,6 +27,7 @@
                 <th scope="row">@person.Id</th>
                 <td>@person.FullName</td>
                 <td>@person.Email</td>
+                <td>@person.DateOfBirth</td>
                 <td>@person.Contracts.Count()</td>
             </tr>
         }

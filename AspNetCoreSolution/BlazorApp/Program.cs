@@ -1,6 +1,11 @@
 using Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using System.Globalization;
+
+//CultureInfo ci = new CultureInfo("en-US");
+//Thread.CurrentThread.CurrentCulture = ci;
+//Thread.CurrentThread.CurrentUICulture = ci;
 
 var builder = WebApplication.CreateBuilder(args);
 

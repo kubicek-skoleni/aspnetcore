@@ -1,7 +1,47 @@
 ﻿@page "/AddPerson"
 
+@inject PeopleContext _context
+@inject NavigationManager navManager
+
 <h3>Přidej novou osobu</h3>
 
-@code {
+<EditForm Model="Person">
+    <div class="mb-3">
+        <label for="firstname" class="form-label">Jméno</label>
+        <InputText @bind-Value=Person.FirstName class="form-control" id="firstname" />
+    </div>
 
+    <div class="mb-3">
+        <label for="lastname" class="form-label">Příjmení</label>
+        <InputText @bind-Value=Person.LastName class="form-control" id="lastname" />
+    </div>
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <InputText @bind-Value=Person.Email class="form-control" id="email" placeholder="name@example.com" />
+    </div>
+
+    <div class="mb-3">
+        <label for="dob" class="form-label">Datum narození</label>
+        <InputDate @bind-Value=Person.DateOfBirth class="form-control" id="dob" />
+    </div>
+    <button class="btn btn-primary" @onclick=Save >Ulož</button>
+</EditForm>
+
+
+@code {
+    Person Person = new Person()
+        {
+            FirstName = "",
+            LastName = "",
+            DateOfBirth = DateTime.Today.AddYears(-20)
+        };
+
+    void Save()
+    {
+        _context.Persons.Add(Person);
+        _context.SaveChanges();
+
+        navManager.NavigateTo("/", true);
+    }
 }
