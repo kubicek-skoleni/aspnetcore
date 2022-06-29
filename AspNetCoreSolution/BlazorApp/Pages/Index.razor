@@ -1,9 +1,36 @@
 ﻿@page "/"
+@using Data
 
-<PageTitle>Index</PageTitle>
+@inject PeopleContext _context
 
-<h1>Hello, world!</h1>
+<PageTitle>Osoby</PageTitle>
 
-Welcome to your new app.
+<div class="card">
+    <div class="card-body">
+        V databázi máme @_context.Persons.Count() osob.
+    </div>
+</div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Jméno</th>
+            <th scope="col">Email</th>
+            <th scope="col">Počet smluv</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var person in _context.Persons.OrderByDescending(x => x.Id).Take(10))
+        {
+            <tr>
+                <th scope="row">@person.Id</th>
+                <td>@person.FullName</td>
+                <td>@person.Email</td>
+                <td>@person.Contracts.Count()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
